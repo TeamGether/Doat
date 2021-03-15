@@ -2,6 +2,7 @@ package com.example.doat.Activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -62,11 +63,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.kakaoLoginBtn.setOnClickListener {
-            if(LoginClient.instance.isKakaoTalkLoginAvailable(this)) {
-                LoginClient.instance.loginWithKakaoTalk(this, callback = callback)
-            } else {
-                LoginClient.instance.loginWithKakaoAccount(this, callback = callback)
+            LoginClient.instance.run {
+                if(LoginClient.instance.isKakaoTalkLoginAvailable(this@LoginActivity)) {
+                    LoginClient.instance.loginWithKakaoTalk(this@LoginActivity, callback = callback)
+                } else {
+                    LoginClient.instance.loginWithKakaoAccount(this@LoginActivity, callback = callback)
+                }
             }
+
         }
 
     }
